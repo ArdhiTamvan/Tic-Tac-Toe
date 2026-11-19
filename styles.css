@@ -1,0 +1,164 @@
+:root {
+  color-scheme: dark;
+  font-family: 'DM Sans', sans-serif;
+  background: #10131d;
+  color: #f4f5f9;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 32px 16px;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 50% 0%, #252a43 0%, #151824 48%, #10131d 100%);
+}
+
+.game-card {
+  width: min(100%, 460px);
+  padding: 34px;
+  border: 1px solid #30354a;
+  border-radius: 24px;
+  background: rgba(25, 29, 44, 0.94);
+  box-shadow: 0 24px 80px #080a1280;
+  text-align: center;
+}
+
+.eyebrow, .label {
+  color: #9da4bc;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.eyebrow { margin: 0 0 8px; }
+h1 {
+  margin: 0;
+  font: 700 2.5rem 'Space Grotesk', sans-serif;
+  letter-spacing: -0.06em;
+}
+.subtitle, .how-to { color: #aeb3c5; line-height: 1.55; }
+.subtitle { margin: 8px auto 24px; max-width: 320px; font-size: 0.94rem; }
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border: 1px solid #353a50;
+  border-radius: 14px;
+  background: #202437;
+  text-align: left;
+}
+.turn-info, .timer-info { display: grid; gap: 3px; }
+.game-info strong { font: 700 1.15rem 'Space Grotesk', sans-serif; }
+.timer-info { text-align: right; }
+.timer-info strong { color: #ffca70; font-size: 1.35rem; }
+.seconds { font: 500 0.85rem 'DM Sans', sans-serif; }
+.timer-info.urgent strong { color: #ff747f; }
+.message { min-height: 24px; margin: 17px 0 14px; color: #c8cce0; font-size: 0.9rem; }
+
+.celebration {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: -4px 0 14px;
+  color: #ffdf78;
+  font: 700 1.2rem 'Space Grotesk', sans-serif;
+  animation: celebrate-pop 500ms ease-out both;
+}
+.celebration.show { display: flex; }
+.celebration-emoji { display: inline-block; font-size: 1.5rem; animation: celebrate-bounce 700ms ease-in-out infinite alternate; }
+.celebration-emoji:last-child { animation-delay: 150ms; }
+@keyframes celebrate-pop {
+  from { opacity: 0; transform: scale(0.65) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+@keyframes celebrate-bounce {
+  from { transform: rotate(-12deg) translateY(2px); }
+  to { transform: rotate(12deg) translateY(-5px); }
+}
+.confetti {
+  position: fixed;
+  z-index: 5;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.confetti-piece {
+  position: absolute;
+  top: -20px;
+  width: 9px;
+  height: 14px;
+  border-radius: 2px;
+  animation: confetti-fall var(--fall-time) ease-in forwards;
+  animation-delay: var(--delay);
+}
+@keyframes confetti-fall {
+  to { transform: translate3d(var(--drift), 110vh, 0) rotate(760deg); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .celebration, .celebration-emoji, .confetti-piece { animation-duration: 0.01ms !important; }
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  width: min(100%, 330px);
+  margin: 0 auto;
+}
+.cell {
+  display: grid;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid #3a4058;
+  border-radius: 16px;
+  background: #252a3e;
+  color: #f4f5f9;
+  font: 700 clamp(2.6rem, 12vw, 4rem) 'Space Grotesk', sans-serif;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+.cell:hover { transform: translateY(-2px); border-color: #737caa; background: #2d334b; }
+.cell.x-mark { color: #82aaff; }
+.cell.o-mark { color: #ff9b8f; }
+.cell.selected { border-color: #ffca70; background: #45402f; box-shadow: 0 0 0 2px #ffca7033; }
+.cell.winning { border-color: #83e0b0; background: #244136; }
+.cell:disabled { cursor: default; }
+.cell:disabled:hover { transform: none; }
+
+.player-counts {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin: 20px 0;
+  color: #c8cce0;
+  font-size: 0.86rem;
+}
+.dot { display: inline-block; width: 9px; height: 9px; margin-right: 5px; border-radius: 50%; }
+.x-dot { background: #82aaff; }
+.o-dot { background: #ff9b8f; }
+.player-counts strong { color: #fff; }
+.restart-button {
+  width: 100%;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 12px;
+  background: #7469e8;
+  color: #fff;
+  font: 700 0.95rem 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 150ms ease, transform 150ms ease;
+}
+.restart-button:hover { transform: translateY(-1px); background: #857bf1; }
+.how-to { margin: 16px 0 0; font-size: 0.78rem; }
+
+@media (max-width: 420px) {
+  .game-card { padding: 26px 20px; }
+  h1 { font-size: 2.2rem; }
+}
